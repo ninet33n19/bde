@@ -42,7 +42,7 @@ def send_to_kafka():
         # Send to Kafka topic
         producer.send("financial_transactions", value=data)
         print(f"Sent transaction for the date {data['date']} to Kafka")
-        # time.sleep(0.1)  # Add small delay to simulate real-time data
+        time.sleep(0.1)  # Add small delay to simulate real-time data
 
 
 if __name__ == "__main__":
