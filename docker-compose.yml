@@ -51,6 +51,7 @@ services:
       POSTGRES_PASSWORD: password
     volumes:
       - timescaledb_data:/var/lib/postgresql/data
+      - ./scripts:/scripts
 
   grafana:
     image: grafana/grafana:latest
@@ -65,3 +66,4 @@ services:
 volumes:
   timescaledb_data:
   grafana_data:
+
