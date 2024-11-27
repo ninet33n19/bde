@@ -23,21 +23,3 @@ SELECT create_hypertable('transactions', 'date');
 CREATE INDEX idx_client_id ON transactions(client_id);
 CREATE INDEX idx_merchant_id ON transactions(merchant_id);
 CREATE INDEX idx_date ON transactions(date DESC);
-
--- Create materialized views for common aggregations
-CREATE MATERIALIZED VIEW hourly_stats AS
-SELECT
-    time_bucket('1 hour', date) AS bucket,
-    COUNT(*) as transaction_count,
-    SUM(amount) as total_amount,
-    AVG(amount) as avg_amount,
-    merchant_state
-FROM transactions
-GROUP BY bucket, merchant_state
-WITH NO DATA;
-
--- Refresh policy for materialized view
-SELECT add_continuous_aggregate_policy('hourly_stats',
-    start_offset => INTERVAL '1 day',
-    end_offset => INTERVAL '1 hour',
-    schedule_interval => INTERVAL '1 hour');
